@@ -9,7 +9,6 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-
 import {
   getFirestore,
   doc,
@@ -30,7 +29,7 @@ const firebaseConfig = {
   appId: "1:82145737267:web:05500f72ff3c082ae78146",
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -48,7 +47,8 @@ export const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
   collectionKey,
-  objectsToAdd
+  objectsToAdd,
+  field
 ) => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
@@ -105,7 +105,7 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const SignInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
   return await signInWithEmailAndPassword(auth, email, password);
@@ -118,10 +118,10 @@ export const onAuthStateChangedListener = (callback) =>
 
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    const unsubcribe = onAuthStateChanged(
+    const unsubscribe = onAuthStateChanged(
       auth,
       (userAuth) => {
-        unsubcribe();
+        unsubscribe();
         resolve(userAuth);
       },
       reject
