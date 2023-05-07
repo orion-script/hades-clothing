@@ -29,6 +29,7 @@ const SignInForm = () => {
 
   const signInWithGoogle = async () => {
     dispatch(googleSignInStart());
+    navigate("/shop");
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -37,6 +38,8 @@ const SignInForm = () => {
     try {
       dispatch(emailSignInStart(email, password));
       resetFormFields();
+      alert("Signed in successfully")
+      navigate("/shop");
     } catch (error) {
       console.log("user sign in failed", error);
     }
